@@ -6,7 +6,6 @@
 # To Explore
 1. [Traversy media React/Websockets](https://www.youtube.com/watch?v=E3NHd-PkLrQ&ab_channel=TraversyMedia)
 2. [Client Side considerations websockets and JS](https://www.ably.io/topic/websockets-nodejs)
-s
 
 &nbsp;
 
@@ -14,13 +13,6 @@ s
 1. [Socket.io site](https://socket.io/)
 2. [Websocket github (ws)](https://github.com/websockets/ws)
 3. [Sock.sj github](https://github.com/sockjs/sockjs-client)
-
-&nbsp;
-
-# Firebase real time data:
-1. [Firebase + react + websockets (youtube video)](https://www.youtube.com/watch?v=ZSRNNqh5Xo8&ab_channel=DecypherMedia)
-2. [Firebase cloud functions and websockets a no go](https://stackoverflow.com/questions/45741284/run-a-web-socket-on-cloud-functions-for-firebases)
-3. [Medium article over firebase and real time database](https://medium.com/swlh/using-firebase-to-provide-real-time-notifications-2f86b2f7d499)
 
 &nbsp;
 

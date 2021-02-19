@@ -1,0 +1,27 @@
+html,
+body {
+  margin: 0;
+  background-color: white;
+  font-family: Monserrat, sans-serif;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.center-elements {
+  width: fit-content;
+  margin: 2vh auto 2vh auto;
+}
+
+.title {
+  margin: 2vh auto 2vh auto;
+  width: 80%;
+  text-align: center;
+}
+
+.code-input {
+  font-size: 2rem;
+  min-width: 0;
+}

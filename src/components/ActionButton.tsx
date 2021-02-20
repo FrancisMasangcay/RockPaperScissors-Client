@@ -6,13 +6,21 @@ import Button from "@material-ui/core/Button";
 
 interface props {
   page?: string;
+  theState?: object;
   onClickEvent: () => void;
 }
 
-class ActionButton extends Component<props> {
-  render() {
-    const { children, page, onClickEvent } = this.props;
-    //console.log("Page = ", page);
+// const customLink = React.forwardRef((linkprops, ref) => (
+//   <Link ref={ref as any} to={{pathname: page, state: theState}}>
+//   </Link> ));
+
+export default function ActionButton (props: any) {
+    const { children, page, theState, onClickEvent } = props;
+
+    // const customLink = React.forwardRef((linkprops, ref) => (
+    //   <Link ref={ref as any} to={{pathname: page, state: theState}}>
+    //   </Link> ));
+      
     return (
       <>
         {page && (
@@ -23,7 +31,9 @@ class ActionButton extends Component<props> {
             to={page}
             onClick={onClickEvent}
           >
-            {children}
+            {/* <Link to={{pathname: page, state: theState}}> */}
+              {children}
+            {/* //</Link> */}
           </Button>
         )}
         {!page && (
@@ -33,7 +43,4 @@ class ActionButton extends Component<props> {
         )}
       </>
     );
-  }
 }
-
-export default ActionButton;

@@ -1,52 +1,76 @@
 import React, { Component } from "react";
-
-//
+import axios from "axios";
 import MyGrid from "../components/MyGrid";
 import ActionButton from "../components/ActionButton";
 
-interface props {}
+import {SET_USER} from "../redux/types"
+import { connect } from "react-redux";
+
+interface props {
+  history: any;
+  dispatch: any;
+}
 
 interface state {
   roomCode?: number;
   joinRoomCode?: number;
+  username?: string
 }
 
-const joinGrid = {
+const buttonedGrid = {
   gridTemplateColumns: "3fr 1fr",
   width: "15%",
   margin: "auto",
+} as const;
+
+const userGrid = {
+  gridTemplateColumns: "1fr",
+  width: "15%",
+  margin: "5vh auto 1vh auto"
 } as const;
 
 class Home extends Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
-      roomCode: Math.floor(Math.random() * 999 + 1),
+      roomCode: undefined,
       joinRoomCode: undefined,
+      username: ""
     };
   }
 
   joinAGame = () => {
-    console.log("You Joined a game");
-  };
+    if(this.state.username)
+    {
+      let name = this.state.username.trim().toLowerCase();
+      this.props.dispatch({type: SET_USER, payload: name});
+      this.props.history.push(`/${this.state.joinRoomCode}`);
+    }
+};
 
   createAGame = () => {
-    //search the current game lobbies and check if code is taken
-    let codeIsAvailable = true;
-    let temp = this.state.roomCode;
-    while(!codeIsAvailable && temp){
-      temp++;
-      //check if code still unavailable
-    }
-    if(temp !== this.state.roomCode){
-      this.setState({
-        roomCode: temp,
-      });
-    }
-  }
+    axios
+      .post("/create-lobby")
+      .then((res) => {
+        this.setState({
+          roomCode: res.data.roomCode,
+        });
+      })
+      .then(() => {
+        if(this.state.username)
+        {
+          let name = this.state.username.trim().toLowerCase();
+          this.props.dispatch({type: SET_USER, payload: name});
+        }
+      })
+      .then(() => {
+        this.props.history.push(`/${this.state.roomCode}`);
+      })
+      .catch((err) => console.log(err));
+  };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(`Changing ${event.target.name} to ${event.target.value}`)
+    console.log(`Changing ${event.target.name} to ${event.target.value}`);
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -55,11 +79,27 @@ class Home extends Component<props, state> {
   render() {
     return (
       <>
+        <MyGrid
+          gridStyle={userGrid}
+          element1={
+            <input
+              className="code-input"
+              onChange={this.handleChange}
+              name="username"
+              value={this.state.username}
+              placeholder="Username"
+            ></input>
+          }
+          element2={
+            <>
+            </>
+          }
+        ></MyGrid>
         <div className="title">
           <h2>Join A Game</h2>
         </div>
         <MyGrid
-          gridStyle={joinGrid}
+          gridStyle={buttonedGrid}
           element1={
             <input
               className="code-input"
@@ -70,7 +110,10 @@ class Home extends Component<props, state> {
             ></input>
           }
           element2={
-            <ActionButton onClickEvent={this.joinAGame} page={`/${this.state.joinRoomCode}`}>
+            <ActionButton
+              onClickEvent={this.joinAGame}
+              //page={`/${this.state.joinRoomCode}`}
+            >
               Join!
             </ActionButton>
           }
@@ -79,7 +122,9 @@ class Home extends Component<props, state> {
           <h2>Or</h2>
         </div>
         <div className="center-elements">
-          <ActionButton onClickEvent={this.createAGame} page={`/${this.state.roomCode}`}>
+          <ActionButton
+            onClickEvent={this.createAGame} 
+          >
             Create a Game
           </ActionButton>
         </div>
@@ -88,4 +133,8 @@ class Home extends Component<props, state> {
   }
 }
 
-export default Home;
+const mapStateToProps = (state: any) => ({
+  username: state.username,
+});
+
+export default connect(mapStateToProps)(Home);

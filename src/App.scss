@@ -25,3 +25,41 @@ body {
   font-size: 2rem;
   min-width: 0;
 }
+
+.board-container{
+  width: 75%;
+  margin: 5vh auto 0vh auto;
+  .gameboard {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    column-gap: 2vw;
+    .action-cards{
+      display: flex;
+      justify-content: space-evenly;
+      width: 80%;
+    }
+    .active-element-wrapper{
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+    }
+    .player-info-wrapper{
+      display:flex;
+      flex-direction: column;
+      .player{
+        align-self: flex-end;
+      }
+      .opponent{
+        align-self: flex-start;
+      }
+      .player-info{
+        display: flex;
+        flex-direction: column;
+        input{
+          width: 100%;
+        }
+        text-align: center;
+      }
+    }
+  }
+}

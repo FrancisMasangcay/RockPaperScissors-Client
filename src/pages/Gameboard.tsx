@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 //utils
 import { NONE, ROCK, PAPER, SCISSORS } from "../util/cardTypes";
-import { CONFIRM } from "../util/gameControlTypes";
 import socket from "../util/socket";
 
 //components
@@ -42,10 +41,9 @@ interface RoomState {
 }
 
 export default function Gameboard(props: any) {
-  const [lobbyCode, setLobby] = useState(props.match.params.roomCode);
+  const [lobbyCode] = useState(props.match.params.roomCode);
   const [activeCard, setCard] = useState(NONE);
   const [opponentCard, setOpponentCard] = useState(NONE);
-  const [score, setScore] = useState(0);
   const [roundComplete, setRound] = useState(false);
   const username = useSelector((state: RootState) => state.user.username);
   let p: User = {
@@ -74,6 +72,7 @@ export default function Gameboard(props: any) {
     pointsToWin: 0,
     gameState: gs,
   };
+
   const [player, setPlayer] = useState(p);
   const [opponent, setOpponent] = useState(o);
   const [gameState, setGameState] = useState(gs);
@@ -107,6 +106,9 @@ export default function Gameboard(props: any) {
     }
   }, [lobbyCode, username]);
 
+  useEffect(() => {
+    console.log(opponent);
+  }, [opponent]);
   //hook to listen for gamestate changes
   useEffect(() => {
     socket.on("updateState", (roomState: RoomState) => {
@@ -117,7 +119,6 @@ export default function Gameboard(props: any) {
       setRoomState(roomState);
       setGameState(roomState.gameState);
       if (currentPts !== serverPts) {
-        console.log("setting round");
         setRound(true);
       }
     });
@@ -125,23 +126,54 @@ export default function Gameboard(props: any) {
 
   useEffect(() => {
     if (roundComplete) {
-      let player = document.getElementsByClassName("player action-cards")[0];
-      let opp = document.getElementsByClassName("opponent action-cards")[0];
+      //update game state from round results
+      if (player.player === 1) {
+        setOpponentCard(gameState.p2 as any);
+        setOpponent({
+          ...opponent,
+          score: gameState.p2_points,
+        });
+        setPlayer({
+          ...player,
+          score: gameState.p1_points,
+        });
+      } else {
+        setOpponentCard(gameState.p1 as any);
+        setOpponent({
+          ...opponent,
+          score: gameState.p1_points,
+        });
+        setPlayer({
+          ...player,
+          score: gameState.p2_points,
+        });
+      }
 
-      player.classList.remove("player");
-      player.classList.add("inactive");
+      //change UI to reflect the results of the round
+      let playerRef = document.getElementsByClassName("player action-cards")[0];
+      let oppRef = document.getElementsByClassName("opponent action-cards")[0];
 
-      opp.classList.remove("opponent");
-      opp.classList.add("inactive");
+      playerRef.classList.remove("player");
+      playerRef.classList.add("inactive");
+
+      oppRef.classList.remove("opponent");
+      oppRef.classList.add("inactive");
 
       setTimeout(() => {
-        setCard(NONE);
-        setRound(false);
-        player.classList.add("player");
-        player.classList.remove("inactive");
+        if (
+          gameState.p1_points === roomState.pointsToWin ||
+          gameState.p2_points === roomState.pointsToWin
+        ) {
+          props.history.push(`/${lobbyCode}/end-game`);
+        } else {
+          setCard(NONE);
+          setRound(false);
+          playerRef.classList.add("player");
+          playerRef.classList.remove("inactive");
 
-        opp.classList.add("opponent");
-        opp.classList.remove("inactive");
+          oppRef.classList.add("opponent");
+          oppRef.classList.remove("inactive");
+        }
       }, 3000);
     }
   }, [roundComplete]);

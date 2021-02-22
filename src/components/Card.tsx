@@ -12,9 +12,9 @@ interface props{
 
 export default function Card(props: props){
   let card = props.cardType;
-  console.log("in card ", card)
+  //console.log("in card ", card)
   if(card === ROCK && props.onclick){
-    console.log("The card is ", card)
+    //console.log("The card is ", card)
     return (
       <div className="card" onClick={props.onclick}>
         <div className="card-image" style={{backgroundImage:`url(${rock})`}}></div>

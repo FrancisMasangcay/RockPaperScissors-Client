@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import { io } from "socket.io-client";
-// import { ENDPOINT } from "../util/config.js";
 
 //redux
 import {connect} from 'react-redux';
@@ -9,11 +7,9 @@ import {connect} from 'react-redux';
 //components
 import MyGrid from "../components/MyGrid";
 import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
 
 //utils
 import socket from "../util/socket";
-import { Divider } from "@material-ui/core";
 
 interface props {
   match?: any;
@@ -93,14 +89,15 @@ class GameLobby extends Component<props, state> {
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: parseInt(event.target.value, 10),
     }, () => {
       socket.emit('changePoints', this.state.pointsToWin, this.state.roomCode)
     });
   };
 
   handleStart = () => {
-    socket.emit('startGame', this.state.roomCode);
+    if(this.state.player1 !== "" && this.state.player2 !== "")
+      socket.emit('startGame', this.state.roomCode);
   };
 
   render() {

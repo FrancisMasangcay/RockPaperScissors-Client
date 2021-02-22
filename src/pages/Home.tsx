@@ -45,6 +45,10 @@ class Home extends Component<props, state> {
     };
   }
 
+  componentDidMount(){
+    this.props.dispatch({type: SET_USER, payload: ""})
+  }
+
   joinAGame = () => {
     if(this.state.username)
     {

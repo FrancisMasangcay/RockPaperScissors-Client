@@ -1,8 +1,15 @@
 html,
 body {
   margin: 0;
-  background-color: white;
+  background-color: #0D0D0D;
   font-family: Monserrat, sans-serif;
+  color: white;
+}
+
+input{
+  border-width: 1px;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
 .grid {
@@ -24,6 +31,16 @@ body {
 .code-input {
   font-size: 2rem;
   min-width: 0;
+}
+
+.settings-wrapper{
+  margin: 10vh auto 0 auto;
+}
+.setting{
+  width: 90%;
+  background-color: #0583F2;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .card{
@@ -49,9 +66,10 @@ body {
   display: grid;
   grid-template-columns: 5fr 1fr;
   column-gap: 1vw;
-  padding: 2vh 2vw 2vh 2vw;
-  background-color: rgba(0, 0, 0, 0.712);
+  padding: 1vh 2vw 1vh 2vw;
+  background-color: rgba(0, 0, 0, 1);
   border-radius: 10px;
+  border: 5px solid rgba(255, 255, 255, 0.562);
 
   .player{
     background-color: #2785db;
@@ -102,8 +120,13 @@ body {
 
 .credits{
   margin: 3vh auto 0 auto;
-  width: 95%;
+  width: 100%;
   text-align: center;
+  position: fixed;
+  bottom: 3vh;
+  a{
+    color: white;
+  }
 }
 
 .inactive{

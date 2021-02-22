@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import axios from "axios";
+
+//components
 import MyGrid from "../components/MyGrid";
 import ActionButton from "../components/ActionButton";
 
+//redux
 import {SET_USER} from "../redux/types"
 import { connect } from "react-redux";
+
+//assets
+import logo from "../assets/favicon.png"
 
 interface props {
   history: any;
@@ -79,6 +85,9 @@ class Home extends Component<props, state> {
   render() {
     return (
       <>
+        <div className="center-elements">
+          <img src={logo}/>
+        </div>
         <MyGrid
           gridStyle={userGrid}
           element1={
@@ -121,7 +130,7 @@ class Home extends Component<props, state> {
         <div className="title">
           <h2>Or</h2>
         </div>
-        <div className="center-elements">
+        <div className="center-elements create-game">
           <ActionButton
             onClickEvent={this.createAGame} 
           >

@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 
 //utils
 import socket from "../util/socket";
+import { Divider } from "@material-ui/core";
 
 interface props {
   match?: any;
@@ -30,11 +31,10 @@ interface state {
 
 const entry = {
   gridTemplateColumns: "2fr 1fr",
-  width: "20%",
+  width: "23%",
   margin: "2vh auto 1vh auto",
 } as const;
 
-//let socket = io(ENDPOINT);
 
 class GameLobby extends Component<props, state> {
   constructor(props: props) {
@@ -52,7 +52,6 @@ class GameLobby extends Component<props, state> {
     this.setState({
       username: this.props.username
     })
-    //socket = io(ENDPOINT);
     socket.emit(
       "lobby",
       { _name: this.state.username, _room: this.state.roomCode },
@@ -60,7 +59,6 @@ class GameLobby extends Component<props, state> {
     ); //join the room
 
     socket.on("init", (users: object, points: number) => {
-      console.log("Users = ", users)
       this.setState({
         pointsToWin: points,
       });
@@ -83,7 +81,6 @@ class GameLobby extends Component<props, state> {
     });
 
     socket.on('updateState', (roomState: any) => {
-      console.log(roomState.pointsToWin)
       this.setState({
         pointsToWin: roomState.pointsToWin
       })
@@ -108,10 +105,14 @@ class GameLobby extends Component<props, state> {
 
   render() {
     return (
-      <>
+      <div className="settings-wrapper">
         <MyGrid
           gridStyle={entry}
-          element1={<h3>Points to Win</h3>}
+          element1={
+            <div className="setting">
+              <h3>Points to Win</h3>
+            </div>
+          }
           element2={
             <input
               className="bordered-input"
@@ -124,7 +125,11 @@ class GameLobby extends Component<props, state> {
         ></MyGrid>
         <MyGrid
           gridStyle={entry}
-          element1={<h3>Room Code</h3>}
+          element1={
+            <div className="setting">
+              <h3>Room Code</h3>
+            </div>
+          }
           element2={
             <input
               className="bordered-input"
@@ -137,25 +142,33 @@ class GameLobby extends Component<props, state> {
         ></MyGrid>
         <MyGrid
           gridStyle={entry}
-          element1={<h3>Player 1:</h3>}
+          element1={
+            <div className="setting">
+              <h3>Player 1:</h3>
+            </div>
+          }
           element2={
             <input
               className="bordered-input"
               value={this.state.player1}
               name="player1"
-              onChange={this.handleChange}
+              readOnly
             ></input>
           }
         ></MyGrid>
         <MyGrid
           gridStyle={entry}
-          element1={<h3>Player 2:</h3>}
+          element1={
+            <div className="setting">
+              <h3>Player 2:</h3>
+            </div>
+          }
           element2={
             <input
               className="bordered-input"
               value={this.state.player2}
               name="player2"
-              onChange={this.handleChange}
+              readOnly
             ></input>
           }
         ></MyGrid>
@@ -164,11 +177,9 @@ class GameLobby extends Component<props, state> {
             variant="contained"
             size="large"
             onClick={this.handleStart}
-            // component={Link}
-            // to={`/${this.state.roomCode}/play`}
           >Start</Button>
         </div>
-      </>
+      </div>
     );
   }
 }

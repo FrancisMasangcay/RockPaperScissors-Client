@@ -60,6 +60,13 @@ input{
   background-position: center;
 }
 
+.player{
+  background-color: #2785db;
+}
+.opponent{
+  background-color: #d83939;
+}
+
 .board-container{
   width: 75%;
   margin: 5vh auto 0vh auto;
@@ -71,12 +78,6 @@ input{
   border-radius: 10px;
   border: 5px solid rgba(255, 255, 255, 0.562);
 
-  .player{
-    background-color: #2785db;
-  }
-  .opponent{
-    background-color: #d83939;
-  }
 
   .gameboard {
     display: flex;
@@ -115,6 +116,55 @@ input{
       }
       text-align: center;
     }
+  }
+}
+
+.end-game-wrapper{
+  display: flex;
+  flex-direction: column;
+  .winner-wrapper{
+    display: grid;
+    grid-template-columns:  2fr 1fr;
+    column-gap: .25rem;
+    min-width: 20%;
+    margin: 3vh auto 2vh auto;
+    .winner{
+      border-radius: 3px;
+      text-align: center;
+      font-size: 2rem;
+      padding: 0 1vw 0 1vw; 
+    }
+    .score{
+      border-radius: 3px;
+      text-align: center;
+      font-size: 2rem;
+      padding: 0 1vw 0 1vw; 
+    }
+  }
+  .loser-wrapper{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: .25rem;
+    width: 15%;
+    margin: 1vh auto 5vh auto;
+    .loser{
+      border-radius: 3px;
+      font-size: 1.75rem;
+      text-align: center;
+      padding: 0 1vw 0 1vw; 
+    }
+    .score{
+      border-radius: 3px;
+      font-size: 1.75rem;
+      text-align: center;
+      padding: 0 1vw 0 1vw; 
+    }
+  }
+  .button{
+    margin: .5vh auto .5vh auto;
+  }
+  a{
+    text-decoration: none;
   }
 }
 

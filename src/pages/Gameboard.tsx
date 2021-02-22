@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { withRouter } from 'react-router-dom'
 
 //utils
 import { NONE, ROCK, PAPER, SCISSORS } from "../util/cardTypes";
@@ -7,8 +8,6 @@ import socket from "../util/socket";
 
 //components
 import Card from "../components/Card";
-
-//import { ENDPOINT } from "../util/config.js";
 
 interface Name {
   username: string;
@@ -40,8 +39,9 @@ interface RoomState {
   roomCode: number;
 }
 
-export default function Gameboard(props: any) {
+function Gameboard(props: any) {
   const [lobbyCode] = useState(props.match.params.roomCode);
+  console.log("LobbyCode ", lobbyCode)
   const [activeCard, setCard] = useState(NONE);
   const [opponentCard, setOpponentCard] = useState(NONE);
   const [roundComplete, setRound] = useState(false);
@@ -66,17 +66,17 @@ export default function Gameboard(props: any) {
     roundWinner: -1,
     gameWinner: -1,
   };
-  let room: RoomState = {
-    roomCode: lobbyCode,
-    users: [],
-    pointsToWin: 0,
-    gameState: gs,
-  };
+  // let room: RoomState = {
+  //   roomCode: lobbyCode,
+  //   users: [],
+  //   pointsToWin: 0,
+  //   gameState: gs,
+  // };
 
   const [player, setPlayer] = useState(p);
   const [opponent, setOpponent] = useState(o);
   const [gameState, setGameState] = useState(gs);
-  const [roomState, setRoomState] = useState(room);
+  //const [roomState, setRoomState] = useState(room);
 
   //hook to initialize gamestate
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function Gameboard(props: any) {
         lobbyCode,
         username,
         (room: RoomState, user: any, opponent: any) => {
-          setRoomState(room);
+          //setRoomState(room);
           setGameState(room.gameState);
           let temp: User = {
             ...user,
@@ -116,7 +116,7 @@ export default function Gameboard(props: any) {
       let currentPts = player.score + opponent.score;
       let serverPts =
         roomState.gameState.p1_points + roomState.gameState.p2_points;
-      setRoomState(roomState);
+      //setRoomState(roomState);
       setGameState(roomState.gameState);
       if (currentPts !== serverPts) {
         setRound(true);
@@ -160,13 +160,11 @@ export default function Gameboard(props: any) {
       oppRef.classList.add("inactive");
 
       setTimeout(() => {
-        if (
-          gameState.p1_points === roomState.pointsToWin ||
-          gameState.p2_points === roomState.pointsToWin
-        ) {
+        if (gameState.gameWinner > 0) {
           props.history.push(`/${lobbyCode}/end-game`);
         } else {
           setCard(NONE);
+          setOpponentCard(NONE);
           setRound(false);
           playerRef.classList.add("player");
           playerRef.classList.remove("inactive");
@@ -174,7 +172,7 @@ export default function Gameboard(props: any) {
           oppRef.classList.add("opponent");
           oppRef.classList.remove("inactive");
         }
-      }, 3000);
+      }, 1000);
     }
   }, [roundComplete]);
 
@@ -216,12 +214,12 @@ export default function Gameboard(props: any) {
             <Card cardType={NONE}></Card>
           </div>
           <div className="active-element-wrapper">
-            <Card cardType={opponentCard}></Card>
+            <Card cardType={opponentCard} onclick={() => {}}></Card>
           </div>
           <div className="active-element-wrapper">
             <Card
               cardType={activeCard}
-              onclick={() => console.log("The active card is ", activeCard)}
+              onclick={() => {}}
             ></Card>
           </div>
           <div className="action-cards player">
@@ -250,3 +248,5 @@ export default function Gameboard(props: any) {
     </>
   );
 }
+
+export default withRouter(Gameboard);

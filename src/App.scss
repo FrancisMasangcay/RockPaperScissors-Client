@@ -26,40 +26,86 @@ body {
   min-width: 0;
 }
 
+.card{
+  height: 15vh;
+  width: 10vh;
+  border-radius: 10px;
+  background-color: bisque;
+  cursor: pointer;
+}
+
+.card-image{
+  width: 90%;
+  height: 90%;
+  margin: 5%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
 .board-container{
   width: 75%;
   margin: 5vh auto 0vh auto;
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  column-gap: 1vw;
+  padding: 2vh 2vw 2vh 2vw;
+  background-color: rgba(0, 0, 0, 0.712);
+  border-radius: 10px;
+
+  .player{
+    background-color: #2785db;
+  }
+  .opponent{
+    background-color: #d83939;
+  }
+
   .gameboard {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    column-gap: 2vw;
+    display: flex;
+    flex-direction: column;
     .action-cards{
       display: flex;
       justify-content: space-evenly;
-      width: 80%;
+      width: 90%;
+      margin: 2.5vh auto 2.5vh auto;
+      border-radius: 10px;
+      padding: 2.5vh 0 2.5vh 0;
     }
     .active-element-wrapper{
       display: flex;
       justify-content: space-around;
       width: 100%;
-    }
-    .player-info-wrapper{
-      display:flex;
-      flex-direction: column;
-      .player{
-        align-self: flex-end;
-      }
-      .opponent{
-        align-self: flex-start;
-      }
-      .player-info{
-        display: flex;
-        flex-direction: column;
-        input{
-          width: 100%;
-        }
-        text-align: center;
-      }
+      margin-top: 1vh;
+      margin-bottom: 1vh;
     }
   }
+  .player-info-wrapper{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    .player-info{
+      display: flex;
+      flex-direction: column;
+      padding: 2.5vh 0 2.5vh 0;
+      margin: 2.5vh auto 2.5vh auto;
+      border-radius: 10px;
+      width: 100%;
+      font-size: 25px;
+      input{
+        width: 100%;
+      }
+      text-align: center;
+    }
+  }
+}
+
+.credits{
+  margin: 3vh auto 0 auto;
+  width: 95%;
+  text-align: center;
+}
+
+.inactive{
+  background-color: rgb(121, 121, 121);
 }

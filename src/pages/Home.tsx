@@ -59,24 +59,26 @@ class Home extends Component<props, state> {
 };
 
   createAGame = () => {
-    axios
-      .post("/create-lobby")
-      .then((res) => {
-        this.setState({
-          roomCode: res.data.roomCode,
-        });
-      })
-      .then(() => {
-        if(this.state.username)
-        {
-          let name = this.state.username.trim().toLowerCase();
-          this.props.dispatch({type: SET_USER, payload: name});
-        }
-      })
-      .then(() => {
-        this.props.history.push(`/${this.state.roomCode}`);
-      })
-      .catch((err) => console.log(err));
+    if(this.state.username !== ""){
+      axios
+        .post("/create-lobby")
+        .then((res) => {
+          this.setState({
+            roomCode: res.data.roomCode,
+          });
+        })
+        .then(() => {
+          if(this.state.username)
+          {
+            let name = this.state.username.trim().toLowerCase();
+            this.props.dispatch({type: SET_USER, payload: name});
+          }
+        })
+        .then(() => {
+          this.props.history.push(`/${this.state.roomCode}`);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

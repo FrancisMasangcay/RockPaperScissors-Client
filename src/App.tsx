@@ -3,6 +3,9 @@ import "./App.scss";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from 'axios';
 
+//utils
+import { ENDPOINT } from "./util/config"
+
 //redux
 import { Provider } from "react-redux";
 import store from './redux/store.js';
@@ -13,8 +16,7 @@ import GameLobby from "./pages/GameLobby";
 import Gameboard from "./pages/Gameboard";
 import EndGame from "./pages/EndGame";
 
-axios.defaults.baseURL =
-  "http://localhost:5000/";
+axios.defaults.baseURL = ENDPOINT;
 
 function App() {
   return (

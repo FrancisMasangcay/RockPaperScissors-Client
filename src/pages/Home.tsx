@@ -53,13 +53,21 @@ class Home extends Component<props, state> {
     if(this.state.username)
     {
       let name = this.state.username.trim().toLowerCase();
-      this.props.dispatch({type: SET_USER, payload: name});
-      this.props.history.push(`/${this.state.joinRoomCode}`);
+      if(name !== "")
+      {
+        this.props.dispatch({type: SET_USER, payload: name});
+        this.props.history.push(`/${this.state.joinRoomCode}`);
+      }
     }
 };
 
   createAGame = () => {
-    if(this.state.username !== ""){
+    let name: string = "";
+    if(this.state.username)
+    {
+      name = this.state.username.trim().toLowerCase();
+    }
+    if(name !== ""){
       axios
         .post("/create-lobby")
         .then((res) => {
@@ -68,11 +76,7 @@ class Home extends Component<props, state> {
           });
         })
         .then(() => {
-          if(this.state.username)
-          {
-            let name = this.state.username.trim().toLowerCase();
-            this.props.dispatch({type: SET_USER, payload: name});
-          }
+          this.props.dispatch({type: SET_USER, payload: name})
         })
         .then(() => {
           this.props.history.push(`/${this.state.roomCode}`);
@@ -82,7 +86,7 @@ class Home extends Component<props, state> {
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(`Changing ${event.target.name} to ${event.target.value}`);
+    //console.log(`Changing ${event.target.name} to ${event.target.value}`);
     this.setState({
       [event.target.name]: event.target.value,
     });
